@@ -23,6 +23,7 @@ import wx
 import wx.grid
 import wx.xrc
 from modbus_tk import modbus_rtu
+from modbus_tk.exceptions import ModbusInvalidResponseError
 # end wxGlade
 
 
