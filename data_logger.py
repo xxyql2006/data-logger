@@ -306,8 +306,10 @@ class MyFrame(wx.Frame):
                         'Unit2_A_alarm_limit', 'Unit2_B_alarm_limit', 'Unit2_C_alarm_limit',
                         'Unit1_Mano_T','Unit1_Mano_P','Unit1_Mano_P20','Unit1_Mano_P20_avg', 
                         'Unit1_Mano_ppmv', 'Unit1_Mano_Td', 'Unit1_Mano_Td0', 'Unit1_Mano_RH', 
+                        'Unit1_APL_ppmv', 'Unit1_APL_T_avg', 'Unit1_APL_T_warn',
                         'Unit2_Mano_T','Unit2_Mano_P','Unit2_Mano_P20','Unit2_Mano_P20_avg', 
-                        'Unit2_Mano_ppmv', 'Unit2_Mano_Td', 'Unit2_Mano_Td0', 'Unit2_Mano_RH', 
+                        'Unit2_Mano_ppmv', 'Unit2_Mano_Td', 'Unit2_Mano_Td0', 'Unit2_Mano_RH',
+                        'Unit2_APL_ppmv', 'Unit2_APL_T_avg', 'Unit2_APL_T_warn', 
                         'Unit1_PD_inten','Unit1_PD_freq','Unit1_PD_indi','Unit1_PD_score']
             var_default = ['2022-01-07 00:00:00'] + ['0' for i in range(24)]
             line_default = dict(zip(var_names, var_default))
@@ -335,9 +337,9 @@ class MyFrame(wx.Frame):
                 sleep(0.1)
                 raw_humid = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 1528, 8)) # Sensor humidity data
                 sleep(0.1)
-                APL_humid_1 = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 1600, 6)) # APL humidity data
+                APL_humid_1 = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 1600, 6)) # APL humidity data: T_avg T_warn,T_alarm
                 sleep(0.1)
-                APL_humid_2 = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 311, 4)) # APL humidity data
+                APL_humid_2 = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 311, 4)) # APL humidity data: ppmv
                 sleep(0.1)
 
                 self.grid_2.SetCellValue([0, 0], str(raw_env_data[0] * 0.1))  # env T
@@ -346,26 +348,26 @@ class MyFrame(wx.Frame):
                 self.grid_3.SetCellValue([0, 0], str(raw_mano1[0] * 0.1))  # manometer T
                 self.grid_3.SetCellValue([0, 1], str(raw_mano1[1] * 0.01))  # manometer P
                 self.grid_3.SetCellValue([0, 2], str(raw_mano1[2] * 0.01))  # manometer P20
-                self.grid_3.SetCellValue([0, 3], str(raw_mano1[3] * 0.01))  # manometer P20 avg
+                self.grid_3.SetCellValue([0, 3], '{:.2f}'.format(self.signed_to_int(raw_mano1[3]) * 0.01))  # delta manometer P20 avg
                 self.grid_3.SetCellValue([0, 4], str(raw_humid[0])) # manometer ppmv
-                self.grid_3.SetCellValue([0, 5], '{:.1f}'.format(self.signed_to_int(raw_humid[1]) * 0.1)) # Manometer Dew temp with pressure Td
-                self.grid_3.SetCellValue([0, 6], '{:.1f}'.format(self.signed_to_int(raw_humid[2]) * 0.1)) # Manometer Dew temp with norminal pressure Td0
+                self.grid_3.SetCellValue([0, 5], '{:.1f}'.format(self.signed_to_int(raw_humid[1]) * 0.01)) # Manometer Dew temp with pressure Td
+                self.grid_3.SetCellValue([0, 6], '{:.1f}'.format(self.signed_to_int(raw_humid[2]) * 0.01)) # Manometer Dew temp with norminal pressure Td0
                 self.grid_3.SetCellValue([0, 7], str(raw_humid[3] * 0.01)) # Manometer Relative humidity RH
-                self.grid_3.SetCellValue([0, 8], str(APL_humid_1[0])) # APL ppmv
-                self.grid_3.SetCellValue([0, 9], '{:.1f}'.format(self.signed_to_int(APL_humid_2[0]) * 0.1)) # APL T_avg
-                self.grid_3.SetCellValue([0, 10], '{:.1f}'.format(self.signed_to_int(APL_humid_2[1]) * 0.1)) # APL Temp warning
+                self.grid_3.SetCellValue([0, 8], str(APL_humid_2[0])) # APL ppmv
+                self.grid_3.SetCellValue([0, 9], '{:.1f}'.format(self.signed_to_int(APL_humid_1[0]) * 0.1)) # APL T_avg
+                self.grid_3.SetCellValue([0, 10], '{:.1f}'.format(self.signed_to_int(APL_humid_1[1]) * 0.1)) # APL Temp warning
 
                 self.grid_3.SetCellValue([1, 0], str(raw_mano2[0] * 0.1))  # manometer T
                 self.grid_3.SetCellValue([1, 1], str(raw_mano2[1] * 0.01))  # manometer P
                 self.grid_3.SetCellValue([1, 2], str(raw_mano2[2] * 0.01))  # manometer P20
-                self.grid_3.SetCellValue([1, 3], str(raw_mano2[3] * 0.01))  # manometer P20 avg
+                self.grid_3.SetCellValue([1, 3], '{:.2f}'.format(self.signed_to_int(raw_mano2[3]) * 0.01))  # delta P20
                 self.grid_3.SetCellValue([1, 4], str(raw_humid[4])) # Manometer humid
-                self.grid_3.SetCellValue([1, 5], '{:.1f}'.format(self.signed_to_int(raw_humid[5]) * 0.1)) # Manometer Dew temp with pressure Td
-                self.grid_3.SetCellValue([1, 6], '{:.1f}'.format(self.signed_to_int(raw_humid[6]) * 0.1)) # Manometer Dew temp with norminal pressure Td0
+                self.grid_3.SetCellValue([1, 5], '{:.1f}'.format(self.signed_to_int(raw_humid[5]) * 0.01)) # Manometer Dew temp with pressure Td
+                self.grid_3.SetCellValue([1, 6], '{:.1f}'.format(self.signed_to_int(raw_humid[6]) * 0.01)) # Manometer Dew temp with norminal pressure Td0
                 self.grid_3.SetCellValue([1, 7], str(raw_humid[7] * 0.01)) # Manometer Relative humidity RH
-                self.grid_3.SetCellValue([1, 8], str(APL_humid_1[2])) # APL ppmv
-                self.grid_3.SetCellValue([1, 9], '{:.1f}'.format(self.signed_to_int(APL_humid_2[3]) * 0.1)) # APL T_avg
-                self.grid_3.SetCellValue([1, 10], '{:.1f}'.format(self.signed_to_int(APL_humid_2[4]) * 0.1)) # APL Temp warning
+                self.grid_3.SetCellValue([1, 8], str(APL_humid_2[2])) # APL ppmv
+                self.grid_3.SetCellValue([1, 9], '{:.1f}'.format(self.signed_to_int(APL_humid_1[3]) * 0.1)) # APL T_avg
+                self.grid_3.SetCellValue([1, 10], '{:.1f}'.format(self.signed_to_int(APL_humid_1[4]) * 0.1)) # APL Temp warning
 
                 self.grid_1.SetCellValue([0, 0], str(raw_t_data[0] * 0.1)) # temp unit1 A
                 self.grid_1.SetCellValue([1, 0], str(raw_t_data[1] * 0.1)) # temp unit1 B
@@ -396,8 +398,8 @@ class MyFrame(wx.Frame):
                 self.grid_1.SetCellValue([5, 3], str(raw_DTR_limit_data[11] * 0.1)) # DTR alarm unit2 C
 
                 print(raw_PD_data, raw_PD_status)
-                self.grid_4.SetCellValue([0, 0], '{:.1f}'.format(self.signed_to_int(raw_PD_data[0]) * 0.1)) # PD intensity unit1
-                self.grid_4.SetCellValue([0, 1], '{:.1f}'.format(self.signed_to_int(raw_PD_data[1]) * 0.1)) # PD frequency unit1
+                self.grid_4.SetCellValue([0, 0], str(raw_PD_data[0] * 0.1)) # PD intensity unit1
+                self.grid_4.SetCellValue([0, 1], str(raw_PD_data[1] * 0.1)) # PD frequency unit1
                 self.grid_4.SetCellValue([0, 2], str(raw_PD_status[0])) # PD indicator unit1
                 self.grid_4.SetCellValue([0, 3], str(raw_PD_status[1])) # PD heathy score unit1
 
@@ -451,7 +453,7 @@ class MyFrame(wx.Frame):
                 line_buf['Unit1_Mano_Td0'] = self.grid_3.GetCellValue(0, 6)
                 line_buf['Unit1_Mano_RH'] = self.grid_3.GetCellValue(0, 7)
                 line_buf['Unit1_APL_ppmv'] = self.grid_3.GetCellValue(0, 8)
-                line_buf['Unit1_APL_avg'] = self.grid_3.GetCellValue(0, 9)
+                line_buf['Unit1_APL_T_avg'] = self.grid_3.GetCellValue(0, 9)
                 line_buf['Unit1_APL_T_warn'] = self.grid_3.GetCellValue(0, 10)
 
                 line_buf['Unit2_Mano_T'] = self.grid_3.GetCellValue(1, 0)
@@ -463,7 +465,7 @@ class MyFrame(wx.Frame):
                 line_buf['Unit2_Mano_Td0'] = self.grid_3.GetCellValue(1, 6)
                 line_buf['Unit2_Mano_RH'] = self.grid_3.GetCellValue(1, 7)
                 line_buf['Unit2_APL_ppmv'] = self.grid_3.GetCellValue(1, 8)
-                line_buf['Unit2_APL_avg'] = self.grid_3.GetCellValue(1, 9)
+                line_buf['Unit2_APL_T_avg'] = self.grid_3.GetCellValue(1, 9)
                 line_buf['Unit2_APL_T_warn'] = self.grid_3.GetCellValue(1, 10)
 
                 # data record for PD

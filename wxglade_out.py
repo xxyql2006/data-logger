@@ -37,7 +37,11 @@ class MyFrame(wx.Frame):
         global time_cycle
         kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
+        self.SetSize((530, 653))
         self.SetTitle("Safe Digital Test Tool")
+        _icon = wx.NullIcon
+        _icon.CopyFromBitmap(wx.Bitmap("C:\\Users\\cnbofan1\\ABB\\Safe Digital in CN - Documents - Documents\\99_Others\\TR and GP data logger_final_bob\\TRlogo.png", wx.BITMAP_TYPE_ANY))
+        self.SetIcon(_icon)
 
         self.frame_statusbar = self.CreateStatusBar(1)
         self.frame_statusbar.SetStatusWidths([-1])
@@ -103,8 +107,8 @@ class MyFrame(wx.Frame):
         self.grid_2 = wx.grid.Grid(self.notebook_1_pane_1, wx.ID_ANY, size=(1, 1))
         self.grid_2.CreateGrid(1, 2)
         self.grid_2.SetRowLabelSize(100)
-        self.grid_2.SetColLabelSize(33)
-        self.grid_2.SetColLabelValue(0, u"Temp. (℃）")
+        self.grid_2.SetColLabelSize(27)
+        self.grid_2.SetColLabelValue(0, u"Temp. (\u2103\uff09")
         self.grid_2.SetColSize(0, 127)
         self.grid_2.SetColLabelValue(1, "Humidity (%)")
         self.grid_2.SetColSize(1, 127)
@@ -113,34 +117,65 @@ class MyFrame(wx.Frame):
         sizer_2.Add(self.grid_2, 0, wx.ALL | wx.EXPAND, 3)
 
         self.grid_1 = wx.grid.Grid(self.notebook_1_pane_1, wx.ID_ANY, size=(1, 1))
-        self.grid_1.CreateGrid(6, 3)
-        self.grid_1.SetRowLabelSize(96)
-        self.grid_1.SetColLabelSize(43)
-        self.grid_1.SetColLabelValue(0, u"Phase A (℃)")
+        self.grid_1.CreateGrid(6, 4)
+        self.grid_1.SetRowLabelSize(100)
+        self.grid_1.SetColLabelSize(33)
+        self.grid_1.SetSelectionMode(wx.grid.Grid.SelectRows)
+        self.grid_1.SetColLabelValue(0, u"Temp (\u2103)")
         self.grid_1.SetColSize(0, 85)
-        self.grid_1.SetColLabelValue(1, u"Phase B (℃)")
+        self.grid_1.SetColLabelValue(1, "Current (A)")
         self.grid_1.SetColSize(1, 85)
-        self.grid_1.SetColLabelValue(2, u"Phase C (℃)")
-        self.grid_1.SetColSize(2, 85)
+        self.grid_1.SetColLabelValue(2, u"DTR warning (\u2103)")
+        self.grid_1.SetColSize(2, 100)
+        self.grid_1.SetColLabelValue(3, u"DTR alarm (\u2103)")
+        self.grid_1.SetColSize(3, 100)
+        self.grid_1.SetRowLabelValue(0, "Unit 1 Phase A")
+        self.grid_1.SetRowLabelValue(1, "Unit 1 Phase B")
+        self.grid_1.SetRowLabelValue(2, "Unit 1 Phase C")
+        self.grid_1.SetRowLabelValue(3, "Unit 2 Phase A")
+        self.grid_1.SetRowLabelValue(4, "Unit 2 Phase B")
+        self.grid_1.SetRowLabelValue(5, "Unit 2 Phase C")
         self.grid_1.SetMinSize(wx.DLG_UNIT(self.grid_1, wx.Size(206, 80)))
-        sizer_2.Add(self.grid_1, 0, wx.ALL | wx.EXPAND, 3)
+        sizer_2.Add(self.grid_1, 1, wx.ALL | wx.EXPAND, 3)
 
         self.grid_3 = wx.grid.Grid(self.notebook_1_pane_1, wx.ID_ANY, size=(1, 1))
         self.grid_3.CreateGrid(1, 4)
-        self.grid_3.SetColLabelValue(0, u"Temp. (℃）")
-        self.grid_3.SetColLabelValue(1, "P (bar)")
+        self.grid_3.SetRowLabelSize(100)
+        self.grid_3.SetSelectionMode(wx.grid.Grid.SelectRows)
+        self.grid_3.SetColLabelValue(0, u"Temp. (\u2103\uff09")
+        self.grid_3.SetColSize(0, 80)
+        self.grid_3.SetColLabelValue(1, "Pressure (bar)")
+        self.grid_3.SetColSize(1, 90)
         self.grid_3.SetColLabelValue(2, "P20 (bar)")
-        self.grid_3.SetColLabelValue(3, "P20_avg (bar)")
+        self.grid_3.SetColSize(2, 80)
+        self.grid_3.SetColLabelValue(3, "P20 avg (bar)")
+        self.grid_3.SetColSize(3, 80)
         self.grid_3.SetRowLabelValue(0, "Manometer")
-        sizer_2.Add(self.grid_3, 1, wx.EXPAND, 0)
+        self.grid_3.SetMinSize(wx.DLG_UNIT(self.grid_3, wx.Size(206, 30)))
+        sizer_2.Add(self.grid_3, 1, wx.ALL | wx.EXPAND, 3)
+
+        self.grid_4 = wx.grid.Grid(self.notebook_1_pane_1, wx.ID_ANY, size=(1, 1))
+        self.grid_4.CreateGrid(1, 4)
+        self.grid_4.SetRowLabelSize(100)
+        self.grid_4.SetColLabelSize(32)
+        self.grid_4.SetSelectionMode(wx.grid.Grid.SelectColumns)
+        self.grid_4.SetColLabelValue(0, u"PD intensity  (dB\uff09")
+        self.grid_4.SetColSize(0, 120)
+        self.grid_4.SetColLabelValue(1, "PD frequency  (peak/cycle)")
+        self.grid_4.SetColSize(1, 160)
+        self.grid_4.SetColLabelValue(2, "PD indicator")
+        self.grid_4.SetColSize(2, 80)
+        self.grid_4.SetColLabelValue(3, "PD Health ")
+        self.grid_4.SetColSize(3, 80)
+        self.grid_4.SetRowLabelValue(0, "Unit 1")
+        self.grid_4.SetMinSize(wx.DLG_UNIT(self.grid_4, wx.Size(206, 30)))
+        sizer_2.Add(self.grid_4, 1, wx.ALL | wx.EXPAND, 3)
 
         self.notebook_1_pane_1.SetSizer(sizer_2)
 
         self.panel_1.SetSizer(sizer_1)
 
-        sizer_1.Fit(self)
         self.Layout()
-
         self.timer_1 = wx.Timer()
         self.timer_1.SetOwner(self, wx.ID_ANY)
         self.__set_properties()
@@ -242,11 +277,14 @@ class MyFrame(wx.Frame):
             var_names = ['Time', 'Env_T', 'Env_H',
                          'Unit1_A_T', 'Unit1_B_T', 'Unit1_C_T',
                          'Unit2_A_T', 'Unit2_B_T', 'Unit2_C_T',
-                         'Unit3_A_T', 'Unit3_B_T', 'Unit3_C_T',
-                         'Unit4_A_T', 'Unit4_B_T', 'Unit4_C_T',
-                         'Unit5_A_T', 'Unit5_B_T', 'Unit5_C_T',
-                         'Unit6_A_T', 'Unit6_B_T', 'Unit6_C_T',
-                         'Unit1_Mano_T','Unit1_Mano_P','Unit1_Mano_P20','Unit1_Mano_P20_avg']
+                         'Unit1_A_Cur', 'Unit1_B_Cur', 'Unit1_C_Cur',
+                         'Unit2_A_Cur', 'Unit2_B_Cur', 'Unit2_C_Cur',
+                         'Unit1_A_warn_limit', 'Unit1_B_warn_limit', 'Unit1_C_warn_limit',
+                         'Unit2_A_warn_limit', 'Unit2_B_warn_limit', 'Unit2_C_warn_limit',
+                         'Unit1_A_alarm_limit', 'Unit1_B_alarm_limit', 'Unit1_C_alarm_limit',
+                         'Unit2_A_alarm_limit', 'Unit2_B_alarm_limit', 'Unit2_C_alarm_limit',
+                         'Unit1_Mano_T','Unit1_Mano_P','Unit1_Mano_P20','Unit1_Mano_P20_avg',
+                         'Unit1_PD_inten','Unit1_PD_freq','Unit1_PD_indi','Unit1_PD_score']
             var_default = ['2022-01-07 00:00:00'] + ['0' for i in range(24)]
             line_default = dict(zip(var_names, var_default))
             with open(data_file, 'a', newline='') as csvfile:
@@ -256,12 +294,18 @@ class MyFrame(wx.Frame):
                 if file_size.st_size == 0:
                     writer.writeheader()
 
-                raw_env_data = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 21, 2))
+                raw_env_data = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 21, 2)) # Ambient T&H sensor
                 sleep(0.1)
-                raw_t_data = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 0, 18))
+                raw_t_data = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 0, 6)) # Temperature rise sensor
                 sleep(0.1)
-                raw_mano_data = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 500, 4))
+                raw_mano_data = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 500, 4)) # manometer 
                 sleep(0.1)
+                raw_cur_data = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 744, 12)) # current sensor
+
+                raw_DTR_limit_data = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 1400, 12)) # DTR warning and alarm limits
+                
+                raw_PD1_data = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 350, 24)) # DTR warning and alarm limits
+                raw_PD2_data = np.array(master.execute(slave_addr, cst.READ_INPUT_REGISTERS, 374, 24)) # DTR warning and alarm limits
 
                 self.grid_2.SetCellValue([0, 0], str(raw_env_data[0] * 0.1))  # env T
                 self.grid_2.SetCellValue([0, 1], str(raw_env_data[1]))  # env H
@@ -271,27 +315,42 @@ class MyFrame(wx.Frame):
                 self.grid_3.SetCellValue([0, 2], str(raw_mano_data[2] * 0.01))  # manometer P20
                 self.grid_3.SetCellValue([0, 3], str(raw_mano_data[3] * 0.01))  # manometer P20 avg
 
-                # self.grid_1.SetCellValue([0, 0], str(raw_t_data[0] * 0.1))
-                # self.grid_1.SetCellValue([0, 1], str(raw_t_data[1] * 0.1))
-                # self.grid_1.SetCellValue([0, 2], str(raw_t_data[2] * 0.1))
-                # self.grid_1.SetCellValue([1, 0], str(raw_t_data[3] * 0.1))
-                # self.grid_1.SetCellValue([1, 1], str(raw_t_data[4] * 0.1))
-                # self.grid_1.SetCellValue([1, 2], str(raw_t_data[5] * 0.1))
-                # self.grid_1.SetCellValue([2, 0], str(raw_t_data[6] * 0.1))
-                # self.grid_1.SetCellValue([2, 1], str(raw_t_data[7] * 0.1))
-                # self.grid_1.SetCellValue([2, 2], str(raw_t_data[8] * 0.1))
-                # self.grid_1.SetCellValue([3, 0], str(raw_t_data[9] * 0.1))
-                # self.grid_1.SetCellValue([3, 1], str(raw_t_data[10] * 0.1))
-                # self.grid_1.SetCellValue([3, 2], str(raw_t_data[11] * 0.1))
-                # self.grid_1.SetCellValue([4, 0], str(raw_t_data[12] * 0.1))
-                # self.grid_1.SetCellValue([4, 1], str(raw_t_data[13] * 0.1))
-                # self.grid_1.SetCellValue([4, 2], str(raw_t_data[14] * 0.1))
-                # self.grid_1.SetCellValue([5, 0], str(raw_t_data[15] * 0.1))
-                # self.grid_1.SetCellValue([5, 1], str(raw_t_data[16] * 0.1))
-                # self.grid_1.SetCellValue([5, 2], str(raw_t_data[17] * 0.1))
-                for row in range(6):
-                    for col in range(3):
-                        self.grid_1.SetCellValue([row, col], str(raw_t_data[row * 3 + col] * 0.1))
+                self.grid_1.SetCellValue([0, 0], str(raw_t_data[0] * 0.1)) # temp unit1 A
+                self.grid_1.SetCellValue([1, 0], str(raw_t_data[1] * 0.1)) # temp unit1 B
+                self.grid_1.SetCellValue([2, 0], str(raw_t_data[2] * 0.1)) # temp unit1 C
+                self.grid_1.SetCellValue([3, 0], str(raw_t_data[3] * 0.1)) # temp unit2 A
+                self.grid_1.SetCellValue([4, 0], str(raw_t_data[4] * 0.1)) # temp unit2 B
+                self.grid_1.SetCellValue([5, 0], str(raw_t_data[5] * 0.1)) # temp unit2 C
+                
+                self.grid_1.SetCellValue([0, 1], str(raw_cur_data[0])) # cur unit1 A
+                self.grid_1.SetCellValue([1, 1], str(raw_cur_data[1])) # cur unit1 B
+                self.grid_1.SetCellValue([2, 1], str(raw_cur_data[2])) # cur unit1 C
+                self.grid_1.SetCellValue([3, 1], str(raw_cur_data[6])) # cur unit2 A
+                self.grid_1.SetCellValue([4, 1], str(raw_cur_data[7])) # cur unit2 B
+                self.grid_1.SetCellValue([5, 1], str(raw_cur_data[8])) # cur unit2 C
+
+                self.grid_1.SetCellValue([0, 2], str(raw_DTR_limit_data[0] * 0.1)) # DTR warning unit1 A
+                self.grid_1.SetCellValue([1, 2], str(raw_DTR_limit_data[2] * 0.1)) # DTR warning unit1 B
+                self.grid_1.SetCellValue([2, 2], str(raw_DTR_limit_data[4] * 0.1)) # DTR warning unit1 C
+                self.grid_1.SetCellValue([3, 2], str(raw_DTR_limit_data[6] * 0.1)) # DTR warning unit2 A
+                self.grid_1.SetCellValue([4, 2], str(raw_DTR_limit_data[8] * 0.1)) # DTR warning unit2 B
+                self.grid_1.SetCellValue([5, 2], str(raw_DTR_limit_data[10] * 0.1)) # DTR warning unit2 C
+                
+                self.grid_1.SetCellValue([0, 3], str(raw_DTR_limit_data[1] * 0.1)) # DTR alarm unit1 A
+                self.grid_1.SetCellValue([1, 3], str(raw_DTR_limit_data[3] * 0.1)) # DTR alarm unit1 B
+                self.grid_1.SetCellValue([2, 3], str(raw_DTR_limit_data[5] * 0.1)) # DTR alarm unit1 C
+                self.grid_1.SetCellValue([3, 3], str(raw_DTR_limit_data[7] * 0.1)) # DTR alarm unit2 A
+                self.grid_1.SetCellValue([4, 3], str(raw_DTR_limit_data[9] * 0.1)) # DTR alarm unit2 B
+                self.grid_1.SetCellValue([5, 3], str(raw_DTR_limit_data[11] * 0.1)) # DTR alarm unit2 C
+
+                self.grid_4.SetCellValue([0, 0], str(raw_PD1_data[0] * 0.1)) # PD intensity unit1
+                self.grid_4.SetCellValue([0, 1], str(raw_PD1_data[1] * 0.1)) # PD frequency unit1
+                self.grid_4.SetCellValue([0, 2], str(raw_PD2_data[0])) # PD indicator unit1
+                self.grid_4.SetCellValue([0, 3], str(raw_PD2_data[1])) # PD heathy score unit1
+               
+                # for row in range(6):
+                #     for col in range(3):
+                #         self.grid_1.SetCellValue([row, col], str(raw_t_data[row * 3 + col] * 0.1))
 
                 line_buf = line_default
                 localtime = time.localtime(time.time())
@@ -300,15 +359,52 @@ class MyFrame(wx.Frame):
                 line_buf['Time'] = time_string
                 line_buf['Env_T'] = self.grid_2.GetCellValue(0, 0)
                 line_buf['Env_H'] = self.grid_2.GetCellValue(0, 1)
-                for row in range(6):
-                    for col in range(3):
-                        line_buf[var_names[3 + col + row * 3]] = self.grid_1.GetCellValue(row, col)
-                        # line_buf[var_names[3 + col + row * 3]] = 0
+                # for row in range(6):
+                #     for col in range(3):
+                #         line_buf[var_names[3 + col + row * 3]] = self.grid_1.GetCellValue(row, col)
+                        
+                line_buf['Unit1_A_T'] = self.grid_1.GetCellValue(0, 0)
+                line_buf['Unit1_B_T'] = self.grid_1.GetCellValue(1, 0)
+                line_buf['Unit1_C_T'] = self.grid_1.GetCellValue(2, 0)
+                line_buf['Unit2_A_T'] = self.grid_1.GetCellValue(3, 0)
+                line_buf['Unit2_B_T'] = self.grid_1.GetCellValue(4, 0)
+                line_buf['Unit2_C_T'] = self.grid_1.GetCellValue(5, 0)
+
+                line_buf['Unit1_A_Cur'] = self.grid_1.GetCellValue(0, 1)
+                line_buf['Unit1_B_Cur'] = self.grid_1.GetCellValue(1, 1)
+                line_buf['Unit1_C_Cur'] = self.grid_1.GetCellValue(2, 1)
+                line_buf['Unit2_A_Cur'] = self.grid_1.GetCellValue(3, 1)
+                line_buf['Unit2_B_Cur'] = self.grid_1.GetCellValue(4, 1)
+                line_buf['Unit2_C_Cur'] = self.grid_1.GetCellValue(5, 1)
+
+                line_buf['Unit1_A_warn_limit'] = self.grid_1.GetCellValue(0, 2)
+                line_buf['Unit1_B_warn_limit'] = self.grid_1.GetCellValue(1, 2)
+                line_buf['Unit1_C_warn_limit'] = self.grid_1.GetCellValue(2, 2)
+                line_buf['Unit2_A_warn_limit'] = self.grid_1.GetCellValue(3, 2)
+                line_buf['Unit2_B_warn_limit'] = self.grid_1.GetCellValue(4, 2)
+                line_buf['Unit2_C_warn_limit'] = self.grid_1.GetCellValue(5, 2)
+
+                line_buf['Unit1_A_alarm_limit'] = self.grid_1.GetCellValue(0, 3)
+                line_buf['Unit1_B_alarm_limit'] = self.grid_1.GetCellValue(1, 3)
+                line_buf['Unit1_C_alarm_limit'] = self.grid_1.GetCellValue(2, 3)
+                line_buf['Unit2_A_alarm_limit'] = self.grid_1.GetCellValue(3, 3)
+                line_buf['Unit2_B_alarm_limit'] = self.grid_1.GetCellValue(4, 3)
+                line_buf['Unit2_C_alarm_limit'] = self.grid_1.GetCellValue(5, 3)
+
+                # data record for manometer
                 line_buf['Unit1_Mano_T'] = self.grid_3.GetCellValue(0, 0)
                 line_buf['Unit1_Mano_P'] = self.grid_3.GetCellValue(0, 1)
                 line_buf['Unit1_Mano_P20'] = self.grid_3.GetCellValue(0, 2)
                 line_buf['Unit1_Mano_P20_avg'] = self.grid_3.GetCellValue(0, 3)
+                
+                # data record for PD
+                line_buf['Unit1_PD_inten'] = self.grid_4.GetCellValue(0, 0)
+                line_buf['Unit1_PD_freq'] = self.grid_4.GetCellValue(0, 1)
+                line_buf['Unit1_PD_indi'] = self.grid_4.GetCellValue(0, 2)
+                line_buf['Unit1_PD_score'] = self.grid_4.GetCellValue(0, 3)
+                
                 writer.writerow(line_buf)
+                
         except FileNotFoundError:
             self.frame_statusbar.SetStatusText('Error: please specify the data folder!', 0)
             self.stop_timer()
